@@ -1,10 +1,10 @@
 -- Criação da base de dados:
 
-create database lojas_amazonas;
+--create database lojas_amazonas_final;
 
 -- Com a base de dados criada podemos criar o esquema
 
-create schema trabalho_final;
+--create schema trabalho_amazonas_final;
 
 /*Criação de tables*/
 
@@ -34,10 +34,10 @@ CREATE TABLE if not exists "produto" (
   PRIMARY KEY ("id"),
   CONSTRAINT "FK_produto.id_funcionario"
     FOREIGN KEY ("id_funcionario")
-      REFERENCES "funcionario"("id"),
+      REFERENCES "funcionario"("id") on delete cascade,
   CONSTRAINT "FK_produto.id_categoria"
     FOREIGN KEY ("id_categoria")
-      REFERENCES "categoria"("id")
+      REFERENCES "categoria"("id") on delete cascade
 );
 
 CREATE table if not exists "cliente" (
@@ -57,7 +57,7 @@ CREATE TABLE if not exists "endereco" (
   "cidade" varchar(50) Not Null,
   CONSTRAINT "FK_endereco.id_cliente"
     FOREIGN KEY ("id_cliente")
-      REFERENCES "cliente"("id")
+      REFERENCES "cliente"("id") on delete cascade
 );
 
 CREATE table if not exists "pedido" (
@@ -67,7 +67,7 @@ CREATE table if not exists "pedido" (
   PRIMARY KEY ("id"),
   CONSTRAINT "FK_pedido.id_cliente"
     FOREIGN KEY ("id_cliente")
-      REFERENCES "cliente"("id")
+      REFERENCES "cliente"("id") on delete cascade
 );
 
 CREATE TABLE if not exists"telefone" (
@@ -76,7 +76,7 @@ CREATE TABLE if not exists"telefone" (
   "num_telefone" varchar(9) not null,
   CONSTRAINT "FK_telefone.id_cliente"
     FOREIGN KEY ("id_cliente")
-      REFERENCES "cliente"("id")
+      REFERENCES "cliente"("id") on delete cascade
 );
 
 CREATE TABLE if not exists "itens_pedido" (
@@ -85,10 +85,10 @@ CREATE TABLE if not exists "itens_pedido" (
   "quantidade" integer Not Null,
   CONSTRAINT "FK_itens_pedido.id_pedido"
     FOREIGN KEY ("id_pedido")
-      REFERENCES "pedido"("id"),
+      REFERENCES "pedido"("id") on delete cascade,
   CONSTRAINT "FK_itens_pedido.id_produto"
     FOREIGN KEY ("id_produto")
-      REFERENCES "produto"("id")
+      REFERENCES "produto"("id") on delete cascade
 );
 
 /* Updates e inserts do banco: */
@@ -345,17 +345,15 @@ set num_telefone = '999998881'  where id_cliente = 4
  * (3 pontos)
  */
 
-select --delete
-	 --c.nome
-	--,c.senha
+select 
+	 c.nome
+	,c.senha
 from cliente as c
-where
-c.nome like '%e%' or
-length(c.senha) < 4 
+--where
+--c.nome --like --'%e%' --or
+--length(c.senha) < 4 
 ;
 
-
- 
 
 
 
