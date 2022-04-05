@@ -1,6 +1,10 @@
-create database lojasamazonas;
+-- Criação da base de dados:
 
-using database lojasamazonas;
+create database lojas_amazonas;
+
+-- Com a base de dados criada podemos criar o esquema
+
+create schema trabalho_final;
 
 /*Criação de tables*/
 
@@ -23,7 +27,7 @@ CREATE TABLE if not exists "produto" (
   "id_funcionario" integer Not Null,
   "id_categoria" integer Not Null,
   "nome_produto" varchar(50) Not Null,
-  "qtd_estoque" bigint Not Null,
+  "qtd_estoque" integer Not Null,
   "valor_unitario" decimal(10,2) Not Null,
   "data_cadastro" date not null default current_date,
   "data_fabricacao" date,
@@ -42,12 +46,12 @@ CREATE table if not exists "cliente" (
   "login" varchar(50) Not Null,
   "senha" varchar(50) Not Null,
   "email" varchar(50) Not Null,
-  "cpf" varchar(14) Not Null,
+  "cpf" varchar(11) Not Null,
   "data_nascimento" date Not Null,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE if not exists"endereco" (
+CREATE TABLE if not exists "endereco" (
   "id_cliente" integer not null,
   "uf" char(2) Not Null,
   "cidade" varchar(50) Not Null,
@@ -58,11 +62,11 @@ CREATE TABLE if not exists"endereco" (
 
 CREATE table if not exists "pedido" (
   "id" serial Not Null,
-  "codigo_cliente" integer Not Null,
+  "id_cliente" integer Not Null,
   "data_pedido" date not null default current_date ,
   PRIMARY KEY ("id"),
-  CONSTRAINT "FK_pedido.codigo_cliente"
-    FOREIGN KEY ("codigo_cliente")
+  CONSTRAINT "FK_pedido.id_cliente"
+    FOREIGN KEY ("id_cliente")
       REFERENCES "cliente"("id")
 );
 
@@ -178,7 +182,7 @@ insert into categoria(nome) values
 ;
 select * from categoria;
 
-insert into pedido (codigo_cliente) values
+insert into pedido (id_cliente) values
  ('1')
 ,('2')
 ,('3')
@@ -246,7 +250,7 @@ from
     ,itens_pedido as i
     ,produto as pr
 where 
-    c.id = pe.codigo_cliente
+    c.id = pe.id_cliente
 	and
 	pe.id  = i.id_pedido
 	and
@@ -264,7 +268,7 @@ from
     pedido as pe 
     ,cliente as c
 where 
-    c.id = pe.codigo_cliente
+    c.id = pe.id_cliente
 group by 
 	c.id
 order by 
@@ -341,12 +345,12 @@ set num_telefone = '999998881'  where id_cliente = 4
  * (3 pontos)
  */
 
-select 
-	c.nome
-	,c.senha
+select --delete
+	 --c.nome
+	--,c.senha
 from cliente as c
 where
---c.nome like '%e%' or
+c.nome like '%e%' or
 length(c.senha) < 4 
 ;
 
