@@ -204,7 +204,9 @@ insert into itens_pedido (id_pedido, id_produto, quantidade) values
 select * from itens_pedido; 
 
 /*Consultas SQL
- * Letra A:*/
+ * Letra A:Uma consulta mostrando todos os produtos cadastrados, com o nome da categoria 
+ * e o nome do funcionário que o cadastrou; (2 pontos)
+*/
 
 select
 	 p.*
@@ -221,7 +223,7 @@ where
 ;
 
 /*
- * Letra B:*/
+ * Letra B:Uma consulta mostrando todos os pedidos feitos (sem os itens do pedido), com o nome e telefone do cliente; (2 pontos)*/
 select
 	 p.*
 	,c.nome as nome_cliente 
@@ -231,12 +233,13 @@ from
     ,cliente as c
     ,telefone as t 
 where 
-	p.id  = c.id  
+	p.id_cliente = c.id  
 	and
-	p.id  = t.id_cliente
+	c.id  = t.id_cliente
 ;
 
-/*Letra C: */
+/*Letra C: Uma consulta mostrando todos os pedidos feitos, com seus itens, mostrando: número do pedido, nome do cliente, data do pedido, nome do produto comprado e a quantidade comprada de cada produto; (2 pontos)
+ */
 
 select
 	 pe.id as numero_pedido
@@ -255,6 +258,21 @@ where
 	pe.id  = i.id_pedido
 	and
 	pr.id  = i.id_produto
+;
+
+-- Select mostrando os valores nulos
+select
+	 pe.id as numero_pedido
+	,c.nome as nome_cliente
+	,pe.data_pedido
+	,pr.nome_produto 
+	,i.quantidade
+from 
+
+	pedido as pe
+	left join cliente as c on c.id = pe.id_cliente
+	left join itens_pedido as i on i.id_pedido = pe.id 
+	left join produto as pr on pr.id = i.id_produto
 ;
 
 /*Letra D:
@@ -333,10 +351,10 @@ order by
 	c.nome asc
 ;
 update cliente 
-set email = 'zatanaboladona@gmail.com' where id = 4
+set email = 'zatanaquadradona@gmail.com' where id = 4
 ;
 update telefone
-set num_telefone = '999998881'  where id_cliente = 4
+set num_telefone = '333333320'  where id_cliente = 4
 ;
 
 /* Numero 6
